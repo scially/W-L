@@ -21,7 +21,6 @@ do
  esac
  shift
 done
-echo ${year:0-2:2}
 for file in `ls`
 do
 	if [[ $file =~ [a-zA-Z0-9]{8}.${year:0-2:2}o ]];then
