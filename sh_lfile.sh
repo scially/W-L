@@ -1,4 +1,7 @@
 #/bin/bash
+#author:wanghui
+#email:wzxwhd@126.com
+#introduce
 if [ $# -eq 0 ];then
     echo "================================================================="
     echo "this shell will call sh_rx2apr to apply "
