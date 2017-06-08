@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 #author:wanghui
 #email:wzxwhd@126.com
 #introduce
