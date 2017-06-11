@@ -41,7 +41,7 @@ if len(sys.argv) == 1:
 Link=False
 Grid = False
 Version = 10.6
-year = None
+year = 2017
 Out = os.path.join(os.getcwd(),'tables')
 Path=os.getenv('HELP_DIR')
 if Path== None:
@@ -61,9 +61,9 @@ for index in range(0, len(sys.argv)):
         Out = sys.argv[index + 1]
 tables = {'pole.usno': 'pole.',
           'ut1.usno': 'ut1.',
-          'luntab.%s.J2000' % (year): 'luntab.',
-          'soltab.%s.J2000' % (year): 'soltab.',
-          'nultab.%s' % (year): 'nultab.',
+          'luntab.{0}.J2000'.format(year): 'luntab.',
+          'soltab.{0}.J2000'.format(year): 'soltab.',
+          'nutabl.{0}'.format(year): 'nutabl.',
           'leap.sec': None,
           'gdetic.dat': None,
           'antmod.dat': None,
@@ -73,8 +73,8 @@ tables = {'pole.usno': 'pole.',
           'dcb.dat.gnss': 'dcb.dat',
           'dcb.dat.gps': 'dcb.dat', }
 grids = {'otl_FES2004.grid':'otl.grid',
-         'vmf1grd.{}'.format(year): 'vmf1grd.grid',
-         'atmdisp_cm.{}'.format(year): 'atmdisp_cm.grid', }
+         'vmf1grd.{0}'.format(year): 'vmf1.grid.{0}'.format(year),
+         'atmdisp_cm.{0}'.format(year): 'atml.grid.{0}'.format(year), }
 
 # download tables
 # ftp://garner.ucsd.edu/
@@ -86,19 +86,19 @@ ftp = connect('132.239.152.183')
 ftp.cwd('/pub/gamit/tables')
 files = ftp.nlst()
 for key, val in tables.items():
-    print 'updating %s to %s' % (key, Out)
+    print 'updating {0} to {1}'.format(key, Out)
     download(ftp, Out, key)
 ftp.quit()
 
 # download grids
 # ftp://everest.mit.edu
 if Grid:
-    print '\033[1;31;Updating Grids\033[0m'
+    print 'Updating Grids'
     ftp = connect('18.83.0.21')
     ftp.cwd('/pub/GRIDS')
     files = ftp.nlst()
     for key, val in grids.items():
-        print 'updating %s to %s' % (key, Out)
+        print 'updating {0} to {1}'.format(key, Out)
         download(ftp, Out, key, 5 * 1024)
     ftp.quit()
 
@@ -110,11 +110,17 @@ else:
 if Link:
     for key, val in tables.items():
         if os.path.exists(os.path.join(Out, key)) and val != None:
-            lnk = 'sudo ln -sf {} {}'.format(os.path.join(Path,'tables', key), os.path.join(Path,'tables',val))
+            cps='sudo cp -f {0} {1}'.format(os.path.join(Out,key),os.path.join(Path,'tables',key))
+            lnk = 'sudo ln -sf {0} {1}'.format(os.path.join(Path,'tables', key), os.path.join(Path,'tables',val))
+            print cps
+            os.system(cps)
             print lnk
             os.system(lnk)
     for key, val in grids.items():
         if os.path.exists(os.path.join(Out,key)) and val != None:
-            lnk = 'sudo ln -sf {} {}'.format(os.path.join(Path,'tables',key), os.path.join(Path,'tables',val))
+            cps = 'sudo cp -f {0} {1}'.format(os.path.join(Out, key), os.path.join(Path, 'tables', key))
+            lnk = 'sudo ln -sf {0} {1}'.format(os.path.join(Path,'tables',key), os.path.join(Path,'tables',val))
+            print cps
+            os.system(cps)
             print lnk
             os.system(lnk)
