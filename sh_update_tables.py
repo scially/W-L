@@ -2,6 +2,7 @@
 # -*- encoding:utf-8 -*-
 """
 Updating tables file in Gasmit10.x by this py-shell
+更改链接规则
 """
 import ftplib
 import sys
@@ -23,38 +24,35 @@ def download(ftp, out, filename, blocksize=2048):
         with open(os.path.join(out, filename), 'wb') as f:
             ftp.retrbinary('RETR ' + key, f.write, blocksize=blocksize)
 
-
 if len(sys.argv) == 1:
     print(
         '''
         Updating tables file in Gamit10.x by this py-shell
-        Usage: ./sh_update_tables.py -update <y/n> -grid <y/n> -path <gamit> -version <v>
+        Usage: ./sh_update_tables.py -link n -grid <y/n> -version <v>
                 -year <year> -out <path>
-            -link  links updating files to gamit tables [default is n]
-                     if -update y ,you should run this py on root
+            -link    link the downloading files in tables, this need to root
             -grid    download grids [default is n]
-            -path    the install path of gamit 
-                     if -update n,-path don't need
             -version the version of gamit, fomat of some tables file is different between
                      under 10.6 and 10.6 [default is 10.6]
-            -out     on which download tables
-        Example: ./sh_update_tables.py -link y -grid n -path /opt/gamit10.6 -version 10.6
-                 -year 2017 -out /home/wanghui/Desktop/tables
+            -out     on which download tables [default is current]
+        Example: ./sh_update_tables.py -link y -grid n -version 10.6 -year 2017 
         ''')
     sys.exit()
-Link = False
+Link=False
 Grid = False
-Path = None
 Version = 10.6
 year = None
-Out = None
+Out = os.path.join(os.getcwd(),'tables')
+Path=os.getenv('HELP_DIR')
+if Path== None:
+    print 'Gamit has some errors!'
+    sys.exit()
+Path=os.path.dirname(os.path.dirname(Path))
 for index in range(0, len(sys.argv)):
     if sys.argv[index] == '-link':
         Link = True if sys.argv[index + 1] == 'y' else False
     elif sys.argv[index] == '-grid':
         Grid = True if sys.argv[index + 1] == 'y' else False
-    elif sys.argv[index] == '-path':
-        Path = sys.argv[index + 1]
     elif sys.argv[index] == '-version':
         Version = float(sys.argv[index + 1])
     elif sys.argv[index] == '-year':
@@ -75,12 +73,12 @@ tables = {'pole.usno': 'pole.',
           'dcb.dat.gnss': 'dcb.dat',
           'dcb.dat.gps': 'dcb.dat', }
 grids = {'otl_FES2004.grid':'otl.grid',
-         'vmf1grd.{}'.format(year): 'map.grid',
-         'atmdisp_cm.{}'.format(year): 'atml.grid', }
+         'vmf1grd.{}'.format(year): 'vmf1grd.grid',
+         'atmdisp_cm.{}'.format(year): 'atmdisp_cm.grid', }
 
 # download tables
 # ftp://garner.ucsd.edu/
-print '\033[1;31;40mUpdating tables\033[0m'
+print 'Updating tables'
 if (Out == None or not os.path.exists(Out)):
     print 'path not exist, we will create this path: %s' % Out
     os.mkdir(Out)
@@ -104,24 +102,19 @@ if Grid:
         download(ftp, Out, key, 5 * 1024)
     ftp.quit()
 
+if Version < 10.6:
+    os.remove(os.path.join(Out, 'svnav.dat.gnss'))
+else:
+    os.remove(os.path.join(Out, 'svnav.dat.gps'))
 # link tables files
-if Link and Path != None:
-    if Version < 10.6:
-        os.remove(os.path.join(Out, 'svnav.dat.gnss'))
-    else:
-        os.remove(os.path.join(Out, 'svnav.dat.gps'))
-    for files in os.listdir(Out):
-        if os.path.isfile(files):
-            cp = 'cp {} {}'.format(os.path.join(Out, files), os.path.join(Path, 'tables', files))
-            print cp
-            os.system(cp)
+if Link:
     for key, val in tables.items():
-        if os.path.exists(os.path.join(Path, 'tables', key)) and val != None:
-            lnk = 'ln -sf {} {}'.format(os.path.join(Path, 'tables', key), os.path.join(Path, 'tables', val))
+        if os.path.exists(os.path.join(Out, key)) and val != None:
+            lnk = 'sudo ln -sf {} {}'.format(os.path.join(Path,'tables', key), os.path.join(Path,'tables',val))
             print lnk
             os.system(lnk)
     for key, val in grids.items():
-        if os.path.exists(os.path.join(Path, 'tables', key)) and val != None:
-            lnk = 'ln -sf {} {}'.format(os.path.join(Path, 'tables', key), os.path.join(Path, 'tables', val))
+        if os.path.exists(os.path.join(Out,key)) and val != None:
+            lnk = 'sudo ln -sf {} {}'.format(os.path.join(Path,'tables',key), os.path.join(Path,'tables',val))
             print lnk
             os.system(lnk)
