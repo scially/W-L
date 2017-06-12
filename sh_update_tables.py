@@ -24,6 +24,16 @@ def download(ftp, out, filename, blocksize=2048):
         with open(os.path.join(out, filename), 'wb') as f:
             ftp.retrbinary('RETR ' + key, f.write, blocksize=blocksize)
 
+def LnkTables(tables):
+    for key, val in tables.items():
+        if os.path.exists(os.path.join(Out, key)) and val != None:
+            cps = 'sudo cp -f {0} {1}'.format(os.path.join(Out, key), os.path.join(Path, 'tables', key))
+            lnk = 'sudo ln -sf {0} {1}'.format(os.path.join(Path, 'tables', key), os.path.join(Path, 'tables', val))
+            print cps
+            os.system(cps)
+            print lnk
+            os.system(lnk)
+
 if len(sys.argv) == 1:
     print(
         '''
@@ -71,10 +81,11 @@ tables = {'pole.usno': 'pole.',
           'svnav.dat.gnss': 'svnav.dat',
           'svnav.dat.gps': 'svnav.dat',
           'dcb.dat.gnss': 'dcb.dat',
-          'dcb.dat.gps': 'dcb.dat', }
-grids = {'otl_FES2004.grid':'otl.grid',
-         'vmf1grd.{0}'.format(year): 'vmf1.grid.{0}'.format(year),
-         'atmdisp_cm.{0}'.format(year): 'atml.grid.{0}'.format(year), }
+          'dcb.dat.gps': 'dcb.dat',
+          }
+grids = {'vmf1grd.{0}'.format(year): 'map.grid.{0}'.format(year),
+         'atmdisp_cm.{0}'.format(year): 'atml.grid.{0}'.format(year),
+         }
 
 # download tables
 # ftp://garner.ucsd.edu/
@@ -106,21 +117,8 @@ if Version < 10.6:
     os.remove(os.path.join(Out, 'svnav.dat.gnss'))
 else:
     os.remove(os.path.join(Out, 'svnav.dat.gps'))
+
 # link tables files
 if Link:
-    for key, val in tables.items():
-        if os.path.exists(os.path.join(Out, key)) and val != None:
-            cps='sudo cp -f {0} {1}'.format(os.path.join(Out,key),os.path.join(Path,'tables',key))
-            lnk = 'sudo ln -sf {0} {1}'.format(os.path.join(Path,'tables', key), os.path.join(Path,'tables',val))
-            print cps
-            os.system(cps)
-            print lnk
-            os.system(lnk)
-    for key, val in grids.items():
-        if os.path.exists(os.path.join(Out,key)) and val != None:
-            cps = 'sudo cp -f {0} {1}'.format(os.path.join(Out, key), os.path.join(Path, 'tables', key))
-            lnk = 'sudo ln -sf {0} {1}'.format(os.path.join(Path,'tables',key), os.path.join(Path,'tables',val))
-            print cps
-            os.system(cps)
-            print lnk
-            os.system(lnk)
+    LnkTables(tables)
+    LnkTables(grids)

@@ -1,5 +1,5 @@
 sh_update_stnfo
-解决了在sh_upd_stnfo -files *.*o中提示word too long的问题
+解决了在sh_upd_stnfo -files *.*o 中提示word too long的问题
 但是，脚本是一个一个o文件遍历，速度有点慢，sh_upd_stnfo每
 次执行完毕也会sleep 3s，所以导致速度很慢。
 sh_lfile
@@ -10,7 +10,7 @@ sh_lfile
 到先验坐标。
 sh_update_tables
 更新Gamit10.x表文件，如果需要进行链接操作，需要你输入root
-密码。建议每次解算前更新一次，更新时间在1分钟左右（不包括更新
-Grid文件）。
-注：otl.grid是600MB左右，所以更新会很慢。
+密码。更新时间在1分钟左右（不包括更新Grid文件）。
+otl.grid是600MB左右，不进行更新。如有需要，请前往mit的
+ftp（ftp://everest.mit.edu/pub/GRIDS）自行下载。
 
