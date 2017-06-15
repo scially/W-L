@@ -1,10 +1,16 @@
 *by LiuQi
+375548699@qq.com
 
-*批量转换3.x到2.11并载波相位平滑伪距
-程序需要用到 两个exe，在Smooth_Add文件中
-建议在使用的时候先进入py文件中将两个exe的路径复制替换成当前路径
+*Automatically convert RINEX 3.x to 2.11 and code_carrier smooth
+There are two *.exe needed for run *.py in Smooth_Add
+
 Usage：
-双击py文件并选择你需要处理的文件夹，会自动处理文件夹中的所有*.*o文件
-3.x到2.1拓展名为*.obs
-载波相位平滑后的RINEX文件拓展名为*.obs_smooth
-注：目前仅支持GPS,BEIDOU,GALELIO
+double-click *.py and choose your folder，then *.py will process all *.*o files in the folder
+
+result:
+3.x to 2.1 are *.obs
+code_carrier smooth are *.obs_smooth
+
+Attention:
+1.Before run program ,you need edit *.py to replace old paths of *.exe by current paths
+2.Only support GPS,BEIDOU,GALELIO
