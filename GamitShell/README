@@ -16,4 +16,16 @@
 密码。更新时间在1分钟左右（不包括更新Grid文件）。
 otl.grid是600MB左右，不进行更新。如有需要，请前往mit的
 ftp（ftp://everest.mit.edu/pub/GRIDS）自行下载。
-
+*sh_merge.sh
+使用teqc将指定时间段的Rinex文件合并，并根据list文件生成track.cmd
+配置文件。
+要求：
+	Rinex文件要符合 SITE[DOY][A-Z]*.16[Oo]格式
+	list如下：
+		|YALD
+		|KATA
+		|SITE
+		|....
+		|....
+注：输出的Rinex文件只会保留GPS数据！
+	
