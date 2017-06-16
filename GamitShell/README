@@ -23,7 +23,7 @@ ftp（ftp://everest.mit.edu/pub/GRIDS）自行下载。
 要求：
 	Rinex文件要符合 SITE[DOY][A-Z]*.16[Oo]格式
 	list如下：
-		|YALD
+		|YALD F
 		|KATA
 		|SITE
 		|....
