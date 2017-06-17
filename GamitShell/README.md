@@ -23,13 +23,13 @@ ftp<ftp://everest.mit.edu/pub/GRIDS>自行下载。<br />
 使用teqc将指定时间段的Rinex文件合并，并根据list文件生成track.cmd<br />
 配置文件。<br />
 #####要求：<br />
-        Rinex文件要符合 SITE[DOY][A-Z]\*.16[Oo]格式<br />
-        list如下：<br />
-        |YALD F<br />
-        |KATA<br />
-        |SITE<br />
-        |....<br />
-        |....<br />
+		Rinex文件要符合 SITE[DOY][A-Z]\*.16[Oo]格式<br />
+		list如下：<br />
+		|YALD F<br />
+		|KATA<br />
+		|SITE<br />
+		|....<br />
+		|....<br />
 **注：不在只输出GPS卫星数据！会保留所有卫星数据！**
 
 ### sh_track_plot.py
@@ -38,8 +38,8 @@ ftp<ftp://everest.mit.edu/pub/GRIDS>自行下载。<br />
 ```shell
 sudo pip install matplotlib
 ```
-在其他版本的Linux中，可以前往<http://matplotlib.org/>下载安装
-####示例
+在其他版本的Linux中，可以前往<http://matplotlib.org/>下载安装<br />
+#### 示例
 >将该脚本复制到track_res中，在终端中运行
 >```shell
 >python sh_track_plot.py -out res.ps
