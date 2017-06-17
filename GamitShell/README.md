@@ -18,7 +18,7 @@ Gamit脚本补充
 更新Gamit10.x表文件，如果需要进行链接操作，需要你输入root<br />
 密码。更新时间在1分钟左右（不包括更新Grid文件）。<br />
 otl.grid是600MB左右，不进行更新。如有需要，请前往mit的<br />
-ftp<ftp://everest.mit.edu/pub/GRIDS>自行下载。<br />
+ftp <ftp://everest.mit.edu/pub/GRIDS> 自行下载。<br />
 ### sh_merge.sh
 使用teqc将指定时间段的Rinex文件合并，并根据list文件生成track.cmd<br />
 配置文件。<br />
