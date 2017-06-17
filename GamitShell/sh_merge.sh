@@ -50,5 +50,5 @@ do
     then
 	    echo "  ${line:0:4} ${line:0:4}$doy0.${year:2:2}o K" >> track/track.cmd
     fi
-    teqc -R -E -S ${line:0:4}$doy[$reg]*.${year:2:2}[Oo] > "track/${line:0:4}${doy}0.${year:2:2}o"
+    teqc ${line:0:4}$doy[$reg]*.${year:2:2}[Oo] > "track/${line:0:4}${doy}0.${year:2:2}o"
 done < $list
