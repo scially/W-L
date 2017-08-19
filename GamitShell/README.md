@@ -3,6 +3,7 @@ Gamit脚本补充
 ##### by 王会 <br />
 ##### Email:wzxwhd@126.com <br />
 ##### 2017-6-12 <br />
+#### updateby wanghui 2017-8-19
 ----
 ### sh_update_stnfo
 解决了在sh_upd_stnfo -files \*.\*o 中提示word too long的问题<br />
@@ -22,18 +23,21 @@ ftp <ftp://everest.mit.edu/pub/GRIDS> 自行下载。<br />
 ### sh_merge.sh
 使用teqc将指定时间段的Rinex文件合并，并根据list文件生成track.cmd<br />
 配置文件。<br />
-##### 要求：<br />
-		Rinex文件要符合 SITE[DOY][A-Z]\*.16[Oo]格式<br />
-		list如下：<br />
-		|YALD F<br />
-		|KATA<br />
-		|SITE<br />
-		|....<br />
-		|....<br />
+```shell
+./sh_merge.sh -year <year> -doy <doy> -regx <regx> -file <list>
+regx 为bash的正则表达式，这里由使用者提供。
+```
+##### 要求：
+		Rinex文件要符合 SITE[DOY]\*.16[Oo]格式
+		list如下：
+		|YALD F
+		|KATA
+		|SITE
+		|....
 **注：不在只输出GPS卫星数据！会保留所有卫星数据！**
 
 ### sh_track_plot.py
-使用python的matplotlib绘制Gamit的track模块的解算结果。<br />
+使用python2的matplotlib绘制Gamit的track模块的解算结果。<br />
 如果你未安装matplotlib，在Ubuntu下使用命令：<br />
 ```shell
 sudo pip install matplotlib
