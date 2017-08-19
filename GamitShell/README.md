@@ -48,3 +48,10 @@ sudo pip install matplotlib
 >```shell
 >python sh_track_plot.py -out res.ps
 >```
+### sh_teqc.sh
+对Teqc的封装，可用使用该脚本对指定目录下的指定Rinex文件进行批量Edit
+>```shell
+>./sh_teqc.sh -file <list> -out <out> -cmd <cmd>
+>```
+>&emsp;&emsp;-cmd teqc命令
+>&emsp;&emsp;-file  待处理的Rinex文件列表，每个文件名占一行，可用ls和重定向生成
