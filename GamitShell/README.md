@@ -23,6 +23,9 @@ ftp <ftp://everest.mit.edu/pub/GRIDS> 自行下载。<br />
 ### sh_merge.sh
 使用teqc将指定时间段的Rinex文件合并，并根据list文件生成track.cmd<br />
 配置文件。<br />
+##### 更新说明
+本次更改了输出路径，不在可以在-out后指定输出路径，同时修复了生成
+track.cmd的BUG
 ```shell
 ./sh_merge.sh -year <year> -doy <doy> -regx <regx> -file <list>
 regx 为bash的正则表达式，这里由使用者提供。
