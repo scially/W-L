@@ -24,10 +24,11 @@ ftp <ftp://everest.mit.edu/pub/GRIDS> 自行下载。<br />
 使用teqc将指定时间段的Rinex文件合并，并根据list文件生成track.cmd<br />
 配置文件。<br />
 ##### 更新说明
-本次更改了输出路径，不在可以在-out后指定输出路径，同时修复了生成
+本次更改了输出路径，可以在-out后指定输出路径，同时修复了生成
 track.cmd的BUG
 ```shell
 ./sh_merge.sh -year <year> -doy <doy> -regx <regx> -file <list>
+&emsp;&emsp;-out <file>
 regx 为bash的正则表达式，这里由使用者提供。
 ```
 ##### 要求：
@@ -40,8 +41,8 @@ regx 为bash的正则表达式，这里由使用者提供。
 **注：不在只输出GPS卫星数据！会保留所有卫星数据！**
 
 ### sh_track_plot.py
-使用python2的matplotlib绘制Gamit的track模块的解算结果。<br />
-如果你未安装matplotlib，在Ubuntu下使用命令：<br />
+使用python3的matplotlib绘制Gamit的track模块的解算结果。<br />
+如果你未安装matplotlib，在终端输入：<br />
 ```shell
 sudo pip install matplotlib
 ```
@@ -49,7 +50,8 @@ sudo pip install matplotlib
 #### 示例
 >将该脚本复制到track_res中，在终端中运行
 >```shell
->python sh_track_plot.py -out res.ps
+>ls *.LC > list
+>python3 sh_track_plot.py -out res.png -file <list>
 >```
 ### sh_teqc.sh
 对Teqc的封装，可用使用该脚本对指定目录下的指定Rinex文件进行批量Edit
