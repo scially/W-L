@@ -13,6 +13,7 @@ import functools
 # modify these parametes according to your system
 Link=False
 Grid = False
+Tables = True
 Version = 10.6
 year = 2018
 Out = os.path.join(os.getcwd(),'tables')
@@ -31,8 +32,8 @@ tables = {'pole.usno': 'pole.',
           'dcb.dat.gnss': 'dcb.dat',
           'dcb.dat.gps': 'dcb.dat',
           }
-grids = {'vmf1grd.{0}'.format(year): 'map.grid.{0}'.format(year),
-        'atmdisp_cm.{0}'.format(year): 'atml.grid.{0}'.format(year),
+grids = {'vmf1grd.{0}'.format(year-1): 'map.grid.{0}'.format(year),
+        'atmdisp_cm.{0}'.format(year-1): 'atml.grid.{0}'.format(year),
         }
 __current_size = 0
 
@@ -86,9 +87,9 @@ if len(sys.argv) == 1:
     print(
         '''
         Updating tables file in Gamit10.x by this py-shell
-        Usage: [sudo] python3 sh_update_tables.py -link n -grid <y/n> -version <v> -path <p>
-                -year <year> -out <path>
+        Usage: [sudo] python3 sh_update_tables.py -link n -grid <y/n> -version <v> -path <p> -year <year> -out <path>
             -link    link the downloading files in tables, this need to root[y/n]
+            -tables  downlaod tables [default is y]
             -grid    download grids [default is n]
             -path    the path of gamit[default is ~/gamit10.6]
             -version the version of gamit[default is 10.6]
@@ -110,21 +111,24 @@ for index in range(0, len(sys.argv)):
         Out = sys.argv[index + 1]
     elif sys.argv[index]=='-path':
         Path = sys.argv[index + 1]
+    elif sys.argv[index]=='-tables':
+        Tables = True if sys.argv[index+1] == 'y' else False
 
 # download tables
 # ftp://garner.ucsd.edu/
-print('Updating tables')
-if (Out == None or not os.path.exists(Out)):
-    print('path not exist, we will create this path: {0}'
-          .format(Out))
-    os.mkdir(Out)
-ftp = connect('132.239.152.183')
-ftp.cwd('/pub/gamit/tables')
-files = ftp.nlst()
-for key, val in tables.items():
-    print('updating {0} to {1}'.format(key, Out))
-    download(ftp, Out, key)
-ftp.quit()
+if Tables:
+    print('Updating tables')
+    if (Out == None or not os.path.exists(Out)):
+        print('path not exist, we will create this path: {0}'
+              .format(Out))
+        os.mkdir(Out)
+    ftp = connect('132.239.152.183')
+    ftp.cwd('/pub/gamit/tables')
+    files = ftp.nlst()
+    for key, val in tables.items():
+        print('updating {0} to {1}'.format(key, Out))
+        download(ftp, Out, key)
+    ftp.quit()
 
 # download grids
 # ftp://everest.mit.edu

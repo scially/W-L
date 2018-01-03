@@ -3,7 +3,7 @@
 ##### by 王会
 ##### Email:wzxwhd@126.com
 ##### 2017-6-12
-#### updateby wanghui 2018-1-3
+#### update by wanghui 2018-1-3
 ----
 ### sh_update_stnfo
 解决了在sh_upd_stnfo -files \*.\*o 中提示word too long的问题<br />
