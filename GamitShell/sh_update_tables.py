@@ -79,7 +79,7 @@ def progressbar(cur, total, width=50):
     percent = cur / total
     sys.stdout.write(' ' * (width + 10) + '\r')
     sys.stdout.write('\r')
-    sys.stdout.write('{:3.0%}[{}]'.format(percent, 
+    sys.stdout.write("{:>4.0%}[{}]".format(percent, 
                     '#'*int(width*percent) + '-'*(width - int(width*percent))))
     sys.stdout.flush()
     
