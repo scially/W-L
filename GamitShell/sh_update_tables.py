@@ -32,8 +32,8 @@ tables = {'pole.usno': 'pole.',
           'dcb.dat.gnss': 'dcb.dat',
           'dcb.dat.gps': 'dcb.dat',
           }
-grids = {'vmf1grd.{0}'.format(year-1): 'map.grid.{0}'.format(year),
-        'atmdisp_cm.{0}'.format(year-1): 'atml.grid.{0}'.format(year),
+grids = {'vmf1grd.{0}'.format(year): 'map.grid.{0}'.format(year),
+        'atmdisp_cm.{0}'.format(year): 'atml.grid.{0}'.format(year),
         }
 __current_size = 0
 
@@ -55,7 +55,7 @@ def write_callback(totalsize, fileobjct, blocks):
     #print('总大小{}，当前大小{}, 百分比{}'.format(totalsize, __current_size, __current_size/totalsize*100))
     progressbar(__current_size, totalsize)
 
-def download(ftp, out, filename, blocksize=20):   
+def download(ftp, out, filename, blocksize=8192):   
     global __current_size    
     if key in files:
         filesize = ftp.size(filename)
@@ -89,12 +89,12 @@ if len(sys.argv) == 1:
         Updating tables file in Gamit10.x by this py-shell
         Usage: [sudo] python3 sh_update_tables.py -link n -grid <y/n> -version <v> -path <p> -year <year> -out <path>
             -link    link the downloading files in tables, this need to root[y/n]
-            -tables  downlaod tables [default is y]
-            -grid    download grids [default is n]
+            -tables  downlaod tables[y/n] [default is y]
+            -grid    download grids[y/n] [default is n]
             -path    the path of gamit[default is ~/gamit10.6]
             -version the version of gamit[default is 10.6]
             -out     on which download tables [default is current path]
-        Example: [sudo] python3 sh_update_tables.py -link y -grid n -version 10.6 -year 2017 
+        Example: [sudo] python3 sh_update_tables.py -link y -grid n -version 10.6 -year 2018 
         ''')
     sys.exit(1)
 
