@@ -8,6 +8,7 @@ emails : wzxwhd@126.com
 import ftplib
 import sys
 import os
+import time
 import functools
 
 if len(sys.argv) == 1:
@@ -112,15 +113,12 @@ def LnkTables(tables):
 
 def progressbar(cur, total, width=50):
     percent = cur / total
-    sys.stdout.write(' ' * (width + 10) + '\r')
+    sys.stdout.write('\r' + ' ' * (width + 10) + '\r')
     sys.stdout.write('\r')
     sys.stdout.write("{:>4.0%}[{}]".format(percent, 
                     '#'*int(width*percent) + '-'*(width - int(width*percent))))
     sys.stdout.flush()
-    
-
-
-
+    time.sleep(0.05)
 
 # download tables
 # ftp://garner.ucsd.edu/
