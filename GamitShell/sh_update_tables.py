@@ -9,6 +9,22 @@ import ftplib
 import sys
 import os
 import functools
+
+if len(sys.argv) == 1:
+    print(
+        '''
+        Updating tables file in Gamit10.x by this py-shell
+        Usage: [sudo] python3 sh_update_tables.py -link n -grid <y/n> -version <v> -path <p> -year <year> -out <path>
+            -link    link the downloading files in tables, this need to root[y/n]
+            -tables  downlaod tables[y/n] [default is y]
+            -grid    download grids[y/n] [default is n]
+            -path    the path of gamit[default is ~/gamit10.6]
+            -version the version of gamit[default is 10.6]
+            -out     on which download tables [default is current path]
+        Example: [sudo] python3 sh_update_tables.py -link y -grid n -version 10.6 -year 2018 
+        ''')
+    sys.exit(1)
+
 # global configure
 # modify these parametes according to your system
 Link=False
@@ -18,6 +34,25 @@ Version = 10.6
 year = 2018
 Out = os.path.join(os.getcwd(),'tables')
 Path='~/gamit10.6'
+__current_size = 0
+
+# get parameters
+for index in range(0, len(sys.argv)):
+    if sys.argv[index] == '-link':
+        Link = True if sys.argv[index + 1] == 'y' else False
+    elif sys.argv[index] == '-grid':
+        Grid = True if sys.argv[index + 1] == 'y' else False
+    elif sys.argv[index] == '-version':
+        Version = float(sys.argv[index + 1])
+    elif sys.argv[index] == '-year':
+        year = sys.argv[index + 1]
+    elif sys.argv[index] == '-out':
+        Out = sys.argv[index + 1]
+    elif sys.argv[index]=='-path':
+        Path = sys.argv[index + 1]
+    elif sys.argv[index]=='-tables':
+        Tables = True if sys.argv[index+1] == 'y' else False
+
 tables = {'pole.usno': 'pole.',
           'ut1.usno': 'ut1.',
           'luntab.{0}.J2000'.format(year): 'luntab.',
@@ -35,7 +70,7 @@ tables = {'pole.usno': 'pole.',
 grids = {'vmf1grd.{0}'.format(year): 'map.grid',
         'atmdisp_cm.{0}'.format(year): 'atml.grid',
         }
-__current_size = 0
+
 
 # construct ftp object
 def connect(host):
@@ -83,36 +118,9 @@ def progressbar(cur, total, width=50):
                     '#'*int(width*percent) + '-'*(width - int(width*percent))))
     sys.stdout.flush()
     
-if len(sys.argv) == 1:
-    print(
-        '''
-        Updating tables file in Gamit10.x by this py-shell
-        Usage: [sudo] python3 sh_update_tables.py -link n -grid <y/n> -version <v> -path <p> -year <year> -out <path>
-            -link    link the downloading files in tables, this need to root[y/n]
-            -tables  downlaod tables[y/n] [default is y]
-            -grid    download grids[y/n] [default is n]
-            -path    the path of gamit[default is ~/gamit10.6]
-            -version the version of gamit[default is 10.6]
-            -out     on which download tables [default is current path]
-        Example: [sudo] python3 sh_update_tables.py -link y -grid n -version 10.6 -year 2018 
-        ''')
-    sys.exit(1)
 
-for index in range(0, len(sys.argv)):
-    if sys.argv[index] == '-link':
-        Link = True if sys.argv[index + 1] == 'y' else False
-    elif sys.argv[index] == '-grid':
-        Grid = True if sys.argv[index + 1] == 'y' else False
-    elif sys.argv[index] == '-version':
-        Version = float(sys.argv[index + 1])
-    elif sys.argv[index] == '-year':
-        year = sys.argv[index + 1]
-    elif sys.argv[index] == '-out':
-        Out = sys.argv[index + 1]
-    elif sys.argv[index]=='-path':
-        Path = sys.argv[index + 1]
-    elif sys.argv[index]=='-tables':
-        Tables = True if sys.argv[index+1] == 'y' else False
+
+
 
 # download tables
 # ftp://garner.ucsd.edu/
@@ -128,6 +136,12 @@ if Tables:
     for key, val in tables.items():
         print('updating {0} to {1}'.format(key, Out))
         download(ftp, Out, key)
+    if Version < 10.6:
+        os.remove(os.path.join(Out, 'svnav.dat.gnss'))
+    else:
+        os.remove(os.path.join(Out, 'svnav.dat.gps'))
+    if Link:
+        LnkTables(tables)
     ftp.quit()
 
 # download grids
@@ -141,13 +155,6 @@ if Grid:
         print('updating {0} to {1}'.format(key, Out))
         download(ftp, Out, key, 5 * 1024)
     ftp.quit()
-
-if Version < 10.6:
-    os.remove(os.path.join(Out, 'svnav.dat.gnss'))
-else:
-    os.remove(os.path.join(Out, 'svnav.dat.gps'))
-
-# link tables files
-if Link:
-    LnkTables(tables)
-    LnkTables(grids)
+    # link grids files
+    if Link:
+        LnkTables(grids)
