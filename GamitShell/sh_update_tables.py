@@ -67,8 +67,8 @@ tables = {'pole.usno': 'pole.',
           'dcb.dat.gnss': 'dcb.dat',
           'dcb.dat.gps': 'dcb.dat',
           }
-grids = {'vmf1grd.{0}'.format(year): 'map.grid',
-        'atmdisp_cm.{0}'.format(year): 'atml.grid',
+grids = {'vmf1grd.{0}'.format(year): 'map.grid.{0}'.format(year),
+        'atmdisp_cm.{0}'.format(year): 'atml.grid.{0}'.format(year),
         }
 
 
