@@ -60,9 +60,10 @@ tables = {'pole.usno': 'pole.',
           'soltab.{0}.J2000'.format(year): 'soltab.',
           'nutabl.{0}'.format(year): 'nutabl.',
           'leap.sec': None,
-          'gdetic.dat': None,
+          'gedtic.dat': None,
           'antmod.dat': None,
           'rcvant.dat': None,
+          'guess_rcvant.dat':None,
           'svnav.dat.gnss': 'svnav.dat',
           'svnav.dat.gps': 'svnav.dat',
           'dcb.dat.gnss': 'dcb.dat',
@@ -103,11 +104,11 @@ def download(ftp, out, filename, blocksize=8192):
 
 def LnkTables(tables):
     for key, val in tables.items():
-        if os.path.exists(os.path.join(Out, key)) and val != None:
-            cps = 'cp -f {0} {1}'.format(os.path.join(Out, key), os.path.join(Path, 'tables', key))
+        cps = 'cp -f {0} {1}'.format(os.path.join(Out, key), os.path.join(Path, 'tables', key))
+        print(cps)
+        os.system(cps)
+        if os.path.exists(os.path.join(Out, key)) and val != None:    
             lnk = 'ln -sf {0} {1}'.format(os.path.join(Path, 'tables', key), os.path.join(Path, 'tables', val))
-            print(cps)
-            os.system(cps)
             print(lnk)
             os.system(lnk)
 
